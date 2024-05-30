@@ -1,4 +1,3 @@
-# main.py
 from extract import extract_fao_temperature_data, extract_world_bank_co2_data
 from trasform import transform_temperature_data, transform_co2_data
 from load import merge_datasets, save_to_sqlite
@@ -7,6 +6,9 @@ from colorama import init, Fore
 
 # Initialize colorama
 init(autoreset=True)
+temp_table = 'temperature'
+CO_table = 'CO2_emissions'
+merged_table = 'tempCO2'
 
 
 def main():
@@ -21,16 +23,16 @@ def main():
     # Check if data extraction was successful
     if temperature_data is not None:
         print(Fore.GREEN + "Successfully extracted FAO temperature data.")
-
         temperature_data = transform_temperature_data(temperature_data)
+        save_to_sqlite(temperature_data, 'pipelineDB', temp_table)
         print(temperature_data.head())
     else:
         print(Fore.RED + "Failed to extract FAO temperature data.")
 
     if co2_data is not None:
         print(Fore.GREEN + "Successfully extracted World Bank CO2 data.")
-
         co2_data = transform_co2_data(co2_data)
+        save_to_sqlite(co2_data, 'pipelineDB', CO_table)
         print(co2_data.head())
     else:
         print(Fore.RED + "Failed to extract World Bank CO2 data.")
@@ -40,7 +42,7 @@ def main():
         if merged_data is not None:
             print(Fore.GREEN + "Merged Data:")
             print(merged_data.head())
-            save_to_sqlite(merged_data, 'pipelineDB', 'tempCO2')
+            save_to_sqlite(merged_data, 'pipelineDB', merged_table)
 
     else:
         print(Fore.YELLOW +
