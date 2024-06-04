@@ -1,0 +1,100 @@
+
+pipeline goodsTransportDataPipeline {
+
+    // Extraction block to download data from the given URL
+    block dataExtractor oftype HttpExtractor {
+        url: "https://www-genesis.destatis.de/genesis/downloads/00/tables/46131-0014_00.csv";
+    }
+
+    // Interpreter block to process the text file with the specified encoding
+    block textFileInterpreter oftype TextFileInterpreter {
+        encoding: "latin3";
+    }
+
+    // Interpreter block to process CSV data with the specified delimiter
+    block csvInterpreter oftype CSVInterpreter {
+        delimiter: ';';
+    }
+
+    // Selector block to select the specified range of cells from the data
+    block dataSelector oftype CellRangeSelector {
+        select: range A9:AU41336;
+    }
+
+    // Column deleter block to remove specified columns from the data
+    block columnRemover oftype ColumnDeleter {
+        delete: [column F, column G, column H, column I, column J, column K, column L, 
+                 column M, column N, column O, column P, column Q, column R, column S, column T, 
+                 column U, column V, column W, column X, column Y, column Z, column AA, column AB, 
+                 column AC, column AD, column AE, column AF, column AG, column AH, column AI, column AJ, 
+                 column AK, column AL, column AM, column AN, column AO, column AP, column AQ, column AR, 
+                 column AS];
+    }
+
+    // Constraint to ensure positive integer values
+    constraint positiveIntConstraint oftype RangeConstraint {
+        lowerBound: 0;
+        lowerBoundInclusive: false;
+    }
+
+    // Value type definition for positive integers
+    valuetype positiveInt oftype integer {
+        constraints: [
+            positiveIntConstraint,
+        ];
+    }
+
+    // Constraint to ensure values are valid German month names
+    constraint germanMonthConstraint oftype AllowlistConstraint {
+        allowlist: ["Januar", "Februar", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+    }
+
+    // Value type definition for German month names
+    valuetype germanMonth oftype text {
+        constraints: [
+            germanMonthConstraint,
+        ];
+    }
+
+    // Constraint to ensure goods ID follows the specified regex pattern
+    constraint goodsIdRegex oftype RegexConstraint {
+        regex: /^NST7-[A-Z0-9]{3}$/;
+    }
+
+    // Value type definition for goods ID
+    valuetype goodsId oftype text {
+        constraints: [
+            goodsIdRegex,
+        ];
+    }
+
+    // Table interpreter block to define the structure and types of columns in the data
+    block tableInterpreter oftype TableInterpreter {
+        header: false;
+        columns: [
+            "year" oftype positiveInt,
+            "month" oftype germanMonth,
+            "goods_id" oftype goodsId,
+            "goods_name" oftype text,
+            "goods_source" oftype text,
+            "abroad" oftype positiveInt,
+            "total" oftype positiveInt
+        ];
+    }
+
+    // Loader block to load the processed data into a SQLite database
+    block dataLoader oftype SQLiteLoader {
+        table: 'goods';
+        file: './goodsTransportedByTrain.sqlite';
+    }
+
+    // Define the pipeline sequence
+    dataExtractor
+        ->textFileInterpreter
+        ->csvInterpreter
+        ->dataSelector
+        ->columnRemover
+        ->tableInterpreter
+        ->dataLoader;
+
+}
