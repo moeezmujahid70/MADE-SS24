@@ -3,7 +3,11 @@ import pandas as pd
 from zipfile import ZipFile
 import os
 from colorama import init, Fore
-from utils import data_directory
+# from utils import data_directory
+
+base_directory = os.path.dirname(os.path.dirname(
+    os.path.dirname(os.path.abspath(__file__))))
+data_directory = os.path.join(base_directory, 'data')
 
 # Initialize colorama
 init(autoreset=True)
