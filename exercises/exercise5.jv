@@ -16,10 +16,11 @@ pipeline BusStopsPipeline {
         ];
     }	
 
+
     constraint ValidCoordinates oftype RangeConstraint {
         lowerBound: -91.0;
         lowerBoundInclusive: false;
-        upperBound: 91.0;
+        upperBound: 89.0;
         upperBoundInclusive: false;
     }
 
