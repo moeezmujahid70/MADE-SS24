@@ -20,22 +20,21 @@ jobs:
           auto-update-conda: true
 
       - name: Create conda environment
-        run: |
-          conda env create -f environment.yml
-        shell: bash -l {0}
-      
-      - name: Activate conda environment
-        run:  conda activate made  # Replace `your-env-name` with your environment name
-        shell: bash -l {0}
+        run: conda env create -f environment.yml
 
-      - name: Verify conda environment
+      - name: Activate conda environment and verify
         run: |
+          source ~/miniconda/etc/profile.d/conda.sh
+          conda activate made  # Replace `your-env-name` with your environment name
+          conda info
           conda list
         shell: bash -l {0}
 
       - name: Run tests
-        working-directory: project
+        working-directory: project  # Replace 'project' with your actual project directory
         run: |
+          source ~/miniconda/etc/profile.d/conda.sh
+          conda activate made  # Ensure the conda environment is activated in the correct directory
           chmod +x tests.sh
           ./tests.sh
         shell: bash -l {0}
