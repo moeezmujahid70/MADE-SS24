@@ -24,7 +24,7 @@ jobs:
 
       - name: Activate conda environment and verify
         run: |
-          source ~/miniconda/etc/profile.d/conda.sh
+          source $CONDA/bin/activate
           conda activate made  # Replace `your-env-name` with your environment name
           conda info
           conda list
@@ -33,7 +33,7 @@ jobs:
       - name: Run tests
         working-directory: project  # Replace 'project' with your actual project directory
         run: |
-          source ~/miniconda/etc/profile.d/conda.sh
+          source $CONDA/bin/activate
           conda activate made  # Ensure the conda environment is activated in the correct directory
           chmod +x tests.sh
           ./tests.sh
