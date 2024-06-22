@@ -1,8 +1,8 @@
 import unittest
 import os
 
-from ..pipeline.extract import extract_fao_temperature_data, extract_world_bank_co2_data
-from ..pipeline.utils import data_directory
+from pipeline.extract import extract_fao_temperature_data, extract_world_bank_co2_data
+from pipeline.utils import data_directory
 
 
 class TestETLPipeline(unittest.TestCase):
