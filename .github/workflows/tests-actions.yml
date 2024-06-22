@@ -11,10 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          path: main
 
       - name: Set up Miniconda
         uses: conda-incubator/setup-miniconda@v2
@@ -24,7 +22,7 @@ jobs:
       - name: Create conda environment
         run: |
           conda env create -f environment.yml
-          conda activate made
+          conda activate made  # Replace `your-env-name` with your environment name
         shell: bash -l {0}
 
       - name: Verify conda environment
@@ -34,9 +32,8 @@ jobs:
         shell: bash -l {0}
 
       - name: Run tests
-        working-directory: project
         run: |
-          chmod +x tests.sh
-          ./tests.sh
+          working-directory: project
+          chmod +x test.sh
+          ./test.sh
         shell: bash -l {0}
-
