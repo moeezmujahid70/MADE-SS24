@@ -22,16 +22,14 @@ jobs:
       - name: Create conda environment
         run: |
           conda env create -f environment.yml
-          conda activate made  # Replace `your-env-name` with your environment name
         shell: bash -l {0}
       
       - name: Activate conda environment
-        run:  conda activate made  # Replace `your-env-name` with your environment name
+        run:  conda activate test  # Replace `your-env-name` with your environment name
         shell: bash -l {0}
 
       - name: Verify conda environment
         run: |
-          conda info
           conda list
         shell: bash -l {0}
 
