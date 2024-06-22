@@ -32,8 +32,8 @@ jobs:
         shell: bash -l {0}
 
       - name: Run tests
+        working-directory: project
         run: |
-          working-directory: project
           chmod +x test.sh
           ./test.sh
         shell: bash -l {0}
