@@ -31,7 +31,9 @@ jobs:
         shell: bash -l {0}
 
       - name: Run tests
-        working-directory: project  # Replace 'project' with your actual project directory
+        working-directory: project
+        env:
+          PYTHONPATH: ${{ github.workspace }}/pipeline
         run: |
           source $CONDA/bin/activate
           conda activate made  # Ensure the conda environment is activated in the correct directory
