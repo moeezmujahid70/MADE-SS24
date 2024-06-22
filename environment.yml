@@ -1,4 +1,4 @@
-name: test
+name: made
 channels:
   - defaults
 dependencies:

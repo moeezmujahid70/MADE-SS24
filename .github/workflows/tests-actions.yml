@@ -25,7 +25,7 @@ jobs:
         shell: bash -l {0}
       
       - name: Activate conda environment
-        run:  conda activate test  # Replace `your-env-name` with your environment name
+        run:  conda activate made  # Replace `your-env-name` with your environment name
         shell: bash -l {0}
 
       - name: Verify conda environment
