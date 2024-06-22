@@ -34,7 +34,7 @@ jobs:
         shell: bash -l {0}
 
       - name: Run tests
-        woking-directory: project
+        working-directory: project
         run: |
           chmod +x tests.sh
           ./tests.sh
