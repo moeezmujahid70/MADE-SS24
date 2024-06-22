@@ -25,18 +25,20 @@ jobs:
       - name: Activate conda environment and verify
         run: |
           source $CONDA/bin/activate
-          conda activate made  # Replace `your-env-name` with your environment name
+          conda activate made  # Replace `made` with your environment name if different
           conda info
           conda list
         shell: bash -l {0}
 
       - name: Run tests
-        working-directory: project
+        working-directory: project  # Ensures commands run in the 'project' directory
         env:
-          PYTHONPATH: ${{ github.workspace }}/pipeline
+          PYTHONPATH: ${{ github.workspace }}/project  # Ensures 'pipeline' module can be found
         run: |
           source $CONDA/bin/activate
-          conda activate made  # Ensure the conda environment is activated in the correct directory
+          conda activate made  # Ensure the conda environment is activated
+          export PYTHONPATH=${{ github.workspace }}/project:${PYTHONPATH}  # Add to PYTHONPATH
+          echo "PYTHONPATH is set to $PYTHONPATH"  # Verify the PYTHONPATH
           chmod +x tests.sh
           ./tests.sh
         shell: bash -l {0}
