@@ -23,8 +23,12 @@ class TestETLPipeline(unittest.TestCase):
 
     def test_world_bank_co2_data_extraction(self):
         co2_data = extract_world_bank_co2_data(self.world_bank_zip_url)
-        target_file = os.path.join(
-            data_directory, 'API_EN.ATM.CO2E.KT_DS2_en_csv_v2_360757.csv')
+        target_file_ = 'API_EN.ATM.CO2E.KT_DS2_en_csv_v2_'
+
+        for filename in os.listdir(data_directory):
+            if filename.startswith(target_file_) and filename.endswith('.csv'):
+                target_file = os.path.join(data_directory, filename)
+
         self.assertTrue(os.path.exists(target_file),
                         "World Bank CO2 data file does not exist")
         self.assertIsNotNone(co2_data, "Failed to extract World Bank CO2 data")
