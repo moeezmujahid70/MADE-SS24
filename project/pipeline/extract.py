@@ -45,10 +45,17 @@ def download_and_extract_zip(url, target_file, extract_to='.'):
         os.remove(local_zip_path)
 
         # Check if the specific CSV file exists in the extracted contents
+        '''
+        
         target_file_path = os.path.join(extract_to, target_file)
         if os.path.exists(target_file_path):
             print(Fore.GREEN + f"Specific CSV file found: {target_file}")
             return target_file_path
+        '''
+
+        for filename in os.listdir(data_directory):
+            if filename.startswith(target_file) and filename.endswith('.csv'):
+                return os.path.join(data_directory, filename)
 
         print(Fore.RED + f"{target_file} not found in the ZIP archive.")
         return None
@@ -69,7 +76,7 @@ def extract_fao_temperature_data(zip_url):
     - pd.DataFrame: DataFrame containing the extracted data.
     """
 
-    target_ = 'Environment_Temperature_change_E_All_Data.csv'
+    target_ = 'Environment_Temperature_change_E_All_Data'
     csv_path = download_and_extract_zip(
         zip_url, target_file=target_, extract_to=data_directory)
     if csv_path:
@@ -104,7 +111,7 @@ def extract_world_bank_co2_data(zip_url):
     Returns:
     - pd.DataFrame: DataFrame containing the extracted data.
     """
-    target_ = 'API_EN.ATM.CO2E.KT_DS2_en_csv_v2_360757.csv'
+    target_ = 'API_EN.ATM.CO2E.KT_DS2_en_csv_v2_'
 
     csv_path = download_and_extract_zip(
         zip_url, target_file=target_,  extract_to=data_directory)
