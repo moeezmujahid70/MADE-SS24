@@ -1,0 +1,78 @@
+pipeline BusStopsPipeline {
+
+
+    // primitive types
+    valuetype zoneID oftype integer {
+        constraints: [ Zone_1645,];
+    }	
+
+    // constrainsts 
+    constraint Zone_1645 on integer: 
+    value == 1645;
+
+    valuetype coordinates oftype decimal {
+        constraints: [
+            ValidCoordinates,
+        ];
+    }	
+
+
+    constraint ValidCoordinates oftype RangeConstraint {
+        lowerBound: -91.0;
+        lowerBoundInclusive: false;
+        upperBound: 89.0;
+        upperBoundInclusive: false;
+    }
+
+    // Interpreters 
+	block BusStopsTextFileInterpreter oftype TextFileInterpreter {
+	}
+
+    block BusStopsCSVInterpreter oftype CSVInterpreter {
+        enclosing: '"';
+	}
+
+    
+    // extract data
+	block BusStopsExtractor oftype HttpExtractor {
+		url: 'https://gtfs.rhoenenergie-bus.de/GTFS.zip';
+	}
+	
+	block BusZipArchiveInterpreter oftype ArchiveInterpreter {
+        archiveType: "zip";
+    }
+
+	// file picker
+	block BusStopsFilePicker oftype FilePicker {
+		path:'/stops.txt';
+	}
+
+	// Table Interpreter for stops
+	block BusStopsTableInterpreter oftype TableInterpreter {
+		header: true;
+		columns: [
+			'stop_id' oftype  integer,
+			'stop_name' oftype text,
+			'stop_lat' oftype coordinates,
+			'stop_lon' oftype coordinates,
+			'zone_id' oftype zoneID,
+		];
+	}
+
+
+	// load in SQLITE database
+    block BusStopsLoader oftype SQLiteLoader {
+        table: "stops";
+        file: "./gtfs.sqlite";
+    }
+    
+    // define pipeline flow
+    BusStopsExtractor 
+		-> BusZipArchiveInterpreter
+		-> BusStopsFilePicker
+		-> BusStopsTextFileInterpreter
+		-> BusStopsCSVInterpreter
+		-> BusStopsTableInterpreter
+		-> BusStopsLoader;
+}
+

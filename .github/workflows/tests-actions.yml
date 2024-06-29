@@ -1,0 +1,44 @@
+name: Tests Actions
+run-name: ${{ github.actor }} is running tests 🚀
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+
+      - name: Create conda environment
+        run: conda env create -f environment.yml
+
+      - name: Activate conda environment and verify
+        run: |
+          source $CONDA/bin/activate
+          conda activate made  # Replace `made` with your environment name if different
+          conda info
+          conda list
+        shell: bash -l {0}
+
+      - name: Run tests
+        working-directory: project  # Ensures commands run in the 'project' directory
+        env:
+          PYTHONPATH: ${{ github.workspace }}/project  # Ensures 'pipeline' module can be found
+        run: |
+          source $CONDA/bin/activate
+          conda activate made  # Ensure the conda environment is activated
+          export PYTHONPATH=${{ github.workspace }}/project:${PYTHONPATH}  # Add to PYTHONPATH
+          echo "PYTHONPATH is set to $PYTHONPATH"  # Verify the PYTHONPATH
+          chmod +x tests.sh
+          ./tests.sh
+        shell: bash -l {0}

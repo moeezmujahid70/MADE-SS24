@@ -1,0 +1,105 @@
+pipeline TemperaturePipeline { 
+
+    // constraints
+
+    constraint IDconstraint oftype RangeConstraint {
+        lowerBound: 0;
+        lowerBoundInclusive: false;
+    }
+
+
+    valuetype IDtype oftype integer {
+        constraints: [ IDconstraint ];
+    } 
+
+    
+    // operators
+
+    transform Celsius2Fahrenheit {
+        from Celsius oftype decimal;
+        to Fahrenheit oftype decimal;
+        Fahrenheit: (Celsius * 1.8) + 32;
+    } 
+    
+
+    /// Data Extracters
+
+    block TemperatureExtractor oftype HttpExtractor {
+        url: "https://www.mowesta.com/data/measure/mowesta-dataset-20221107.zip";
+    } 
+
+
+    block TemperatureArchiveInterpreter oftype ArchiveInterpreter {
+        archiveType: "zip";
+    } 
+
+    block TemperatureCSVInterpreter oftype CSVInterpreter {
+        delimiter: ";";
+    }
+    
+    block TemperatureFilePicker oftype FilePicker {
+        path: "/data.csv"; 
+    }
+
+    block TemperatureFileInterpreter oftype TextFileInterpreter{
+    }
+     
+
+
+    // Tranform
+
+    block TemperatureDataSelector oftype CellRangeSelector {
+    select: range A1:K*;
+    } 
+    
+
+    // Table
+
+    block TemperatureTableDataInterpreter oftype TableInterpreter {
+        header: false;
+        columns: [
+            "id" oftype IDtype,
+            "producer" oftype text, 
+            "model" oftype text, 
+            "month" oftype integer,
+            "temperature" oftype decimal, 
+            "battery_temperature" oftype decimal
+        ];
+    }
+    
+
+    // column tranformers
+
+    block Celsius2FahrenheitTransformer oftype TableTransformer {
+        inputColumns: ['temperature'];
+        outputColumn: 'temperature';
+        use: Celsius2Fahrenheit;
+    }
+
+    block Celsius2FahrenheitBatteryTransformer oftype TableTransformer {
+        inputColumns: ['battery_temperature'];
+        outputColumn: 'battery_temperature';
+        use: Celsius2Fahrenheit;
+    } 
+    
+    // loading to database
+    
+    block TemperatureLoader oftype SQLiteLoader {
+        table: "temperatures";
+        file: "./temperatures.sqlite";
+     }
+
+   // pipeline flow
+
+   TemperatureExtractor 
+    -> TemperatureArchiveInterpreter
+    -> TemperatureFilePicker
+    -> TemperatureFileInterpreter
+    -> TemperatureCSVInterpreter
+    -> TemperatureDataSelector
+    -> TemperatureTableDataInterpreter
+    -> Celsius2FahrenheitTransformer
+    -> Celsius2FahrenheitBatteryTransformer
+    -> TemperatureLoader;
+
+}

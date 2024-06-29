@@ -1,8 +1,16 @@
 import pandas as pd
 import sqlite3
 from colorama import init, Fore
+import pathlib
+# from utils import get_directory_absolute_path
 
-from utils import get_directory_absolute_path
+
+def get_directory_absolute_path():
+    """
+    Return the absolute path of the root project based on this file.
+    """
+    return pathlib.Path(__file__).parent.parent.parent.resolve()
+
 
 # Initialize colorama
 init(autoreset=True)
