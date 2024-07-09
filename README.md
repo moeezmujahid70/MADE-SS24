@@ -3,7 +3,7 @@
 ![](https://byob.yarr.is/moeezmujahid70/MADE-SS24/score_ex1) ![](https://byob.yarr.is/moeezmujahid70/MADE-SS24/score_ex2) ![](https://byob.yarr.is/moeezmujahid70/MADE-SS24/score_ex3) ![](https://byob.yarr.is/moeezmujahid70/MADE-SS24/score_ex4) ![](https://byob.yarr.is/moeezmujahid70/MADE-SS24/score_ex5)
 
 
-# Methods of Advanced Data Engineering 
+# Analyzing the Impact of CO2 Emissions on Temperature Change
 
 ![image](https://github.com/moeezmujahid70/MADE-SS24/assets/51213035/586f00da-5bcd-4995-b18e-45dc5033bf21)
 
