@@ -5,6 +5,8 @@
 
 # Methods of Advanced Data Engineering 
 
+![image](https://github.com/moeezmujahid70/MADE-SS24/assets/51213035/586f00da-5bcd-4995-b18e-45dc5033bf21)
+
 
 Climate change is a critical global issue because of its effect on the environment, human health, and economies. Through statistical analysis, this project investigates the relationship between temperature changes and CO2 emissions. The results are expected to examine the impact of CO2 emissions on temperature change. They may be used as information for future policy decisions related to greenhouse gas emissions.
 In this Project, analysis are performed on following topics:
