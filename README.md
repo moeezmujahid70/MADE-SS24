@@ -1,8 +1,3 @@
-# Exercise Badges
-
-![](https://byob.yarr.is/moeezmujahid70/MADE-SS24/score_ex1) ![](https://byob.yarr.is/moeezmujahid70/MADE-SS24/score_ex2) ![](https://byob.yarr.is/moeezmujahid70/MADE-SS24/score_ex3) ![](https://byob.yarr.is/moeezmujahid70/MADE-SS24/score_ex4) ![](https://byob.yarr.is/moeezmujahid70/MADE-SS24/score_ex5)
-
-
 # Analyzing the Impact of CO2 Emissions on Temperature Change
 
 ![image](https://github.com/moeezmujahid70/MADE-SS24/assets/51213035/586f00da-5bcd-4995-b18e-45dc5033bf21)
@@ -14,6 +9,10 @@ In this Project, analysis are performed on following topics:
 - How Have Temperature Changes and CO2 Emission  Varied Over the Years?
 - What is the Impact of CO2 Emissions on Temperature Change Globally?
 - What is the Impact of CO2 Emissions on Temperature Change in Individual Countries? 
+
+# Exercise Badges
+
+![](https://byob.yarr.is/moeezmujahid70/MADE-SS24/score_ex1) ![](https://byob.yarr.is/moeezmujahid70/MADE-SS24/score_ex2) ![](https://byob.yarr.is/moeezmujahid70/MADE-SS24/score_ex3) ![](https://byob.yarr.is/moeezmujahid70/MADE-SS24/score_ex4) ![](https://byob.yarr.is/moeezmujahid70/MADE-SS24/score_ex5)
 
 
 ## Exercises
